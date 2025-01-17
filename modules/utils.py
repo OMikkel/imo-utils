@@ -27,7 +27,27 @@ def compute_diagonal_hessian(matrix):
 
     return (A,B)
 
-def print_hessian(title, matrix):
+def compute_hessian_result(matrix):
+    diagonal_matrix = compute_diagonal_hessian(matrix)
+    diagonal = diagonal_matrix[0].diagonal()
+
+    print_matrix("Hessian Matrix (A)", matrix)
+    print_matrix("Final Result (BT*A*B)", diagonal_matrix[0])
+    
+    if all(diagonal > 0):
+        print("[blue]The matrix is positive definite[/blue]")
+    elif all(diagonal >= 0):
+        print("[blue]The matrix is positive semidefinite[/blue]")
+    elif all(diagonal < 0):
+        print("[blue]The matrix is negative definite[/blue]")
+    elif all(diagonal <= 0):
+        print("[blue]The matrix is negative semidefinite[/blue]")
+    else:
+        print("[blue]The matrix is indefinite[/blue]")
+
+    print_matrix("Final (B)", diagonal_matrix[1])
+
+def print_matrix(title, matrix):
     table = Table(title=title, show_header=False, show_lines=True, title_style="green")
     
     for row in matrix:
