@@ -3,16 +3,7 @@ from sympy import Symbol as sp_Symbol, sympify as sp_sympify
 from modules.utils import print
 from numpy import array as np_array
 
-def hessian_fnc(function_str: str, variables_str: str):
-    variable_names = variables_str.replace(" ", "").split(",")
-    variables = [sp_Symbol(name) for name in variable_names]
-
-    try:
-        function = sp_sympify(function_str, locals={var.name: var for var in variables})
-    except Exception as e:
-        print("[red]Error: Invalid function or variables[/red]", e)
-        return
-    
+def hessian_fnc(function, variables):
     try:
         hessian_matrix = compute_hessian(function, variables, datatype=float)
 

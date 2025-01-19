@@ -1,7 +1,7 @@
 from modules.solvers.hessian import hessian_fnc, hessian
 from modules.solvers.inverse_matrix import inverse_matrix
 from modules.solvers.gradient import gradient
-from modules.utils import print
+from modules.utils import print, eval_function, eval_variables
 import cmd
 
 class IMOCli(cmd.Cmd):
@@ -18,25 +18,27 @@ class IMOCli(cmd.Cmd):
         "Computes the gradient of a function, takes two arguments: function and variables \nExample: gradient x**2+y**2 x,y"
         try:
             args = arg.split()
-            function_str = args[0]
-            variables_str = args[1]
+
+            variables = eval_variables(args[1])
+            function = eval_function(args[0], variables)
         except:
             print("[red]Invalid arguments[/red]")
             return
         
-        gradient(function_str=function_str, variables_str=variables_str)
+        gradient(function, variables)
 
     def do_hessian_fnc(self, arg):
         "Computes the hessian of a function, takes two arguments: function and variables \nExample: hessian_fnc x**2+y**2 x,y"
         try:
             args = arg.split()
-            function_str = args[0]
-            variables_str = args[1]
+
+            variables = eval_variables(args[1])
+            function = eval_function(args[0], variables)
         except:
             print("[red]Invalid arguments[/red]")
             return
         
-        hessian_fnc(function_str=function_str, variables_str=variables_str)
+        hessian_fnc(function, variables)
     
     def do_hessian(self, arg):
         "Computes the hessian of a matrix, takes one argument: matrix as a string \nexample: [[1,2],[3,4]]"

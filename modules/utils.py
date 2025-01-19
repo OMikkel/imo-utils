@@ -1,6 +1,6 @@
 from rich.console import Console
 from rich.table import Table
-from sympy import Matrix as sp_Matrix, diff as sp_diff
+from sympy import Matrix as sp_Matrix, diff as sp_diff, Symbol as sp_Symbol, sympify as sp_sympify
 from numpy import array as np_array, eye as np_eye, copy as np_copy, matmul as np_matmul
 
 console = Console()
@@ -23,6 +23,7 @@ def compute_diagonal_hessian(matrix):
     for i in range(0, len(matrix)):
 
         for j in range(i+1, len(matrix)):
+            print(f"B[{i}][{j}] = -({A[i][j]}/{A[i][i]})")
             B[i][j] = -(A[i][j]/A[i][i])
 
         result = np_matmul(B[i:, i:].T, A[i:, i:])
@@ -51,6 +52,23 @@ def compute_hessian_result(matrix):
         print("[blue]The matrix is indefinite[/blue]")
 
     print_matrix("Final (B)", diagonal_matrix[1])
+
+def eval_variables(variables_str: str):
+    try:
+        variable_names = variables_str.replace(" ", "").split(",")
+        variables = [sp_Symbol(name) for name in variable_names]
+    except Exception as e:
+        print("[red]Error: Invalid variables[/red]", e)
+        return
+
+    return variables
+
+def eval_function(function_str: str, variables: list[sp_Symbol]):
+    try:
+        return sp_sympify(function_str, locals={var.name: var for var in variables})
+    except Exception as e:
+        print("[red]Error: Invalid function or variables[/red]", e)
+        return
 
 def print_matrix(title, matrix):
     table = Table(title=title, show_header=False, show_lines=True, title_style="green")
