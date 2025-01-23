@@ -15,10 +15,8 @@ def hessian_fnc(function, variables):
         print("[red]Hessian matrix is not a float matrix, could not calculate the final result[/red]")
         
 
-def hessian(matrix_str: str):
+def hessian(matrix):
     try:
-        matrix = np_array(eval(matrix_str))
-
         compute_hessian_result(matrix)
     except Exception as e:
         print("[red]Error: Invalid matrix[/red]", e)

@@ -1,7 +1,8 @@
 from modules.solvers.hessian import hessian_fnc, hessian
 from modules.solvers.inverse_matrix import inverse_matrix
 from modules.solvers.gradient import gradient
-from modules.utils import print, eval_function, eval_variables
+from modules.solvers.gaussian import gaussian
+from modules.utils import print, eval_function, eval_variables, eval_matrix
 import cmd
 
 class IMOCli(cmd.Cmd):
@@ -44,23 +45,37 @@ class IMOCli(cmd.Cmd):
         "Computes the hessian of a matrix, takes one argument: matrix as a string \nexample: [[1,2],[3,4]]"
         try:
             args = arg.split()
-            matrix_str = args[0]
+            matrix = eval_matrix(args[0])
         except:
             print("[red]Invalid arguments[/red]")
             return
         
-        hessian(matrix_str=matrix_str)
+        hessian(matrix)
 
     def do_inverse_matrix(self, arg):
         "Computes the inverse of a matrix, takes one argument: matrix as a string \nexample: [[1,2],[3,4]]"
         try:
             args = arg.split()
-            matrix_str = args[0]
+            matrix = eval_matrix(args[0])
         except:
             print("[red]Invalid arguments[/red]")
             return
         
-        inverse_matrix(matrix_str=matrix_str)
+        inverse_matrix(matrix)
+    
+    def do_gaussian(self, arg):
+        "Solves a system of linear equations using Gaussian Elimination, takes two argument: matrix with last col being constants, variable names (optional) \nExample: gaussian [[1,2],[3,4]] x,y"
+        try:
+            args = arg.split()
+            A_matrix = eval_matrix(args[0])
+            variables = []
+            if len(args) > 1:
+                variables = args[1].split(",")
+        except Exception as e:
+            print("[red]Invalid arguments[/red]", e)
+            return
+        
+        gaussian(A_matrix, variables)
 
     def do_EOF(self, arg):
         "Exits the program"
