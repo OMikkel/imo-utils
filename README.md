@@ -22,13 +22,14 @@ wget -qO- https://github.com/OMikkel/imo-utils/releases/latest/download/install.
 
 Download the appropriate binary for your platform:
 
-| Platform | Download |
-|----------|----------|
-| Linux    | [imo-linux](https://github.com/OMikkel/imo-utils/releases/latest/download/imo-linux) |
-| macOS    | [imo-macos](https://github.com/OMikkel/imo-utils/releases/latest/download/imo-macos) |
+| Platform | Download                                                                                         |
+| -------- | ------------------------------------------------------------------------------------------------ |
+| Linux    | [imo-linux](https://github.com/OMikkel/imo-utils/releases/latest/download/imo-linux)             |
+| macOS    | [imo-macos](https://github.com/OMikkel/imo-utils/releases/latest/download/imo-macos)             |
 | Windows  | [imo-windows.exe](https://github.com/OMikkel/imo-utils/releases/latest/download/imo-windows.exe) |
 
 **Linux/macOS:**
+
 ```bash
 chmod +x imo-linux  # or imo-macos
 sudo mv imo-linux /usr/local/bin/imo
@@ -41,10 +42,10 @@ Move `imo-windows.exe` to a directory in your PATH, or run it directly.
 
 The `imo-utils` CLI offers the following functionalities:
 
-*   **Gradient Calculation:** Computes the gradient of a multi-variable function.
-*   **Hessian Calculation:** Computes the Hessian matrix of a multi-variable function or a given matrix.
-*   **Inverse Matrix Calculation:** Computes the inverse of a square matrix.
-*   **Gaussian Elimination:** Solves a system of linear equations using the Gaussian elimination method.
+- **Gradient Calculation:** Computes the gradient of a multi-variable function.
+- **Hessian Calculation:** Computes the Hessian matrix of a multi-variable function or a given matrix.
+- **Inverse Matrix Calculation:** Computes the inverse of a square matrix.
+- **Gaussian Elimination:** Solves a system of linear equations using the Gaussian elimination method.
 
 ## Input and Commands
 
