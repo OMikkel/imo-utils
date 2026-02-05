@@ -1,0 +1,96 @@
+name: Build CLI Executables
+
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact_name: imo-linux
+            asset_name: imo
+          - os: windows-latest
+            artifact_name: imo-windows
+            asset_name: imo.exe
+          - os: macos-latest
+            artifact_name: imo-macos
+            asset_name: imo
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build executable with PyInstaller
+        run: pyinstaller imo.spec
+
+      - name: Rename artifact for release
+        shell: bash
+        run: |
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            mv dist/${{ matrix.asset_name }} dist/${{ matrix.artifact_name }}.exe
+          else
+            mv dist/${{ matrix.asset_name }} dist/${{ matrix.artifact_name }}
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: dist/${{ matrix.artifact_name }}*
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Prepare release assets
+        run: |
+          mkdir -p release
+          cp artifacts/imo-linux/imo-linux release/
+          cp artifacts/imo-macos/imo-macos release/
+          cp artifacts/imo-windows/imo-windows.exe release/
+          cp install.sh release/
+          chmod +x release/install.sh
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release/imo-linux
+            release/imo-macos
+            release/imo-windows.exe
+            release/install.sh
+          generate_release_notes: true 

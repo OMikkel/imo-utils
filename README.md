@@ -2,6 +2,41 @@
 
 `imo-utils` is a command-line interface (CLI) tool designed to perform various mathematical computations, particularly focused on linear algebra and calculus. It provides a simple and interactive way to solve systems of linear equations, compute gradients, Hessians, and inverse matrices.
 
+## Installation
+
+### Quick Install (Linux/macOS)
+
+Run this command to automatically download and install the latest release:
+
+```bash
+curl -fsSL https://github.com/OMikkel/imo-utils/releases/latest/download/install.sh | bash
+```
+
+Or with wget:
+
+```bash
+wget -qO- https://github.com/OMikkel/imo-utils/releases/latest/download/install.sh | bash
+```
+
+### Manual Installation
+
+Download the appropriate binary for your platform:
+
+| Platform | Download |
+|----------|----------|
+| Linux    | [imo-linux](https://github.com/OMikkel/imo-utils/releases/latest/download/imo-linux) |
+| macOS    | [imo-macos](https://github.com/OMikkel/imo-utils/releases/latest/download/imo-macos) |
+| Windows  | [imo-windows.exe](https://github.com/OMikkel/imo-utils/releases/latest/download/imo-windows.exe) |
+
+**Linux/macOS:**
+```bash
+chmod +x imo-linux  # or imo-macos
+sudo mv imo-linux /usr/local/bin/imo
+```
+
+**Windows:**
+Move `imo-windows.exe` to a directory in your PATH, or run it directly.
+
 ## Functionality
 
 The `imo-utils` CLI offers the following functionalities:
